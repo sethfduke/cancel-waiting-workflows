@@ -24,8 +24,9 @@ runs:
   using: 'composite'
   steps:
       - shell: bash
-        if: ${{ inputs.waitfor != "" }}
         run: |
+          if [ ${{ inputs.waitfor != "" }} ];
+          then
           echo "Waiting for workflows to no longer be in status ${{ inputs.waitfor }}..."
           for waitfor in ${{ inputs.waitfor }}; do
             while [ "$(curl -G \
@@ -42,6 +43,7 @@ runs:
               sleep 1
             done
           done
+          fi
 
       - shell: bash 
         run: |
