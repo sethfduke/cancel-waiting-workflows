@@ -21,7 +21,7 @@ jobs:
           event: "pull_request"
           branch: ${{ github.head_ref }}
           run_number: ${{ github.run_number }}
-          cancel_waiting: true
+          status: "queued waiting in_progress"
       # - name: Cancel Waiting Workflows
       #   run: |
       #     for status in "waiting" "queued" "in_progress"; do

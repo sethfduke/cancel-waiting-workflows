@@ -13,23 +13,17 @@ inputs:
   run_number: 
     description: 'The run number of the current workflow run'
     required: true
-  cancel_waiting:
-    description: 'Target workflows in the waiting status'
-    default: false
-  cancel_queued:
-    description: 'Target workflows in the queued status'
-    default: false
-  cancel_inprogress:
-    description: 'Target workflows in the in_progress status'
-    default: false
+  status:
+    description: "Target workflow statuses."
+    required: true
 runs:
   using: 'composite'
   steps:
       - shell: bash 
         run: |
-          if [ ${{inputs.cancel_waiting}} = "true" ];
-          then echo "Cancel waiting";
-          fi
+          for status in ${{ inputs.status }}; do
+            echo $status
+          done        
 # for status in "waiting" "queued" "in_progress"; do
 #   curl -G \
 #   --data-urlencode 'branch=${{inputs.branch}}' \
