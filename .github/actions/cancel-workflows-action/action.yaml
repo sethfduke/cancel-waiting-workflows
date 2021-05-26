@@ -14,7 +14,7 @@ inputs:
     description: 'The run number of the current workflow run'
     required: true
   status:
-    description: "Target workflow statuses."
+    description: "Target workflow statuses seperated by a space."
     required: true
 runs:
   using: 'composite'
@@ -22,25 +22,22 @@ runs:
       - shell: bash 
         run: |
           for status in ${{ inputs.status }}; do
-            echo $status
-          done        
-# for status in "waiting" "queued" "in_progress"; do
-#   curl -G \
-#   --data-urlencode 'branch=${{inputs.branch}}' \
-#   --data-urlencode 'event=${{inputs.event}}' \
-#   --data-urlencode "status=$status" \
-#   --data-urlencode 'per_page=100' \
-#   --header 'Authorization: token ${{inputs.token}}' \
-#   --header 'accept: application/vnd.github.v3+json' \
-#   --silent \
-#   https://api.github.com/repos/${{github.repository}}/actions/runs \
-#   | jq --raw-output '.workflow_runs[] | select(.run_number!=${{inputs.run_number}}) | .url' \
-#   | for i in $(cat) ; do
-#     echo "Canceling workflow run id $i..."
-#     curl -X POST \
-#     --header 'Authorization: token ${{inputs.token}}' \
-#     --header 'accept: application/vnd.github.v3+json' \
-#     --silent \
-#     $i/cancel
-#   done
-# done
+            curl -G \
+            --data-urlencode 'branch=${{inputs.branch}}' \
+            --data-urlencode 'event=${{inputs.event}}' \
+            --data-urlencode "status=$status" \
+            --data-urlencode 'per_page=100' \
+            --header 'Authorization: token ${{inputs.token}}' \
+            --header 'accept: application/vnd.github.v3+json' \
+            --silent \
+            https://api.github.com/repos/${{github.repository}}/actions/runs \
+            | jq --raw-output '.workflow_runs[] | select(.run_number!=${{inputs.run_number}}) | .url' \
+            | for i in $(cat) ; do
+              echo "Canceling workflow run id $i..."
+              curl -X POST \
+              --header 'Authorization: token ${{inputs.token}}' \
+              --header 'accept: application/vnd.github.v3+json' \
+              --silent \
+              $i/cancel
+            done
+          done
