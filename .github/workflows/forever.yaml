@@ -1,0 +1,18 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  cancel-workflows:
+    name: Forever
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          while :
+          do
+            sleep 10
+          done
