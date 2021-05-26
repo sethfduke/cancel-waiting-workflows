@@ -1,0 +1,52 @@
+name: 'Cancel Workflows'
+description: 'Cancels workflows based on inputs'
+inputs:
+  token:
+    description: 'Github token to use to authenticate'
+    required: true
+  branch: 
+    description: 'The target branch of the workflows to cancel'
+    required: true
+  event: 
+    description: 'The actions event that triggered the target workflows.'
+    required: true
+  run_number: 
+    description: 'The run number of the current workflow run'
+    required: true
+  cancel_waiting:
+    description: 'Target workflows in the waiting status'
+    default: false
+  cancel_queued:
+    description: 'Target workflows in the queued status'
+    default: false
+  cancel_inprogress:
+    description: 'Target workflows in the in_progress status'
+    default: false
+runs:
+  using: 'composite'
+  steps:
+      - shell: bash 
+        run: |
+          if [ ${{inputs.cancel_waiting}} = "true" ]
+            echo "Cancel waiting"
+          fi
+# for status in "waiting" "queued" "in_progress"; do
+#   curl -G \
+#   --data-urlencode 'branch=${{inputs.branch}}' \
+#   --data-urlencode 'event=${{inputs.event}}' \
+#   --data-urlencode "status=$status" \
+#   --data-urlencode 'per_page=100' \
+#   --header 'Authorization: token ${{inputs.token}}' \
+#   --header 'accept: application/vnd.github.v3+json' \
+#   --silent \
+#   https://api.github.com/repos/${{github.repository}}/actions/runs \
+#   | jq --raw-output '.workflow_runs[] | select(.run_number!=${{inputs.run_number}}) | .url' \
+#   | for i in $(cat) ; do
+#     echo "Canceling workflow run id $i..."
+#     curl -X POST \
+#     --header 'Authorization: token ${{inputs.token}}' \
+#     --header 'accept: application/vnd.github.v3+json' \
+#     --silent \
+#     $i/cancel
+#   done
+# done
