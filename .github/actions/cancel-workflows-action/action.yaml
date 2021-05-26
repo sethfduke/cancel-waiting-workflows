@@ -27,8 +27,8 @@ runs:
   steps:
       - shell: bash 
         run: |
-          if [ ${{inputs.cancel_waiting}} = "true" ]
-            echo "Cancel waiting"
+          if [ ${{inputs.cancel_waiting}} = "true" ];
+          then echo "Cancel waiting";
           fi
 # for status in "waiting" "queued" "in_progress"; do
 #   curl -G \
