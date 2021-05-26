@@ -6,6 +6,7 @@ on:
       - main
   workflow_dispatch:
 
+
 jobs:
   cancel-workflows:
     name: Cancel Workflow Runs
