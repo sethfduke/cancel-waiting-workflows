@@ -18,7 +18,7 @@ jobs:
             curl -G \
             --data-urlencode 'branch=${{github.head_ref}}' \
             --data-urlencode 'event=pull_request' \
-            --data-urlencode 'status=$status' \
+            --data-urlencode "status=$status" \
             --data-urlencode 'per_page=100' \
             --header 'Authorization: token ${{github.token}}' \
             --header 'accept: application/vnd.github.v3+json' \
