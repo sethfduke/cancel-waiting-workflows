@@ -16,11 +16,39 @@ inputs:
   status:
     description: "Target workflow statuses seperated by a space."
     required: true
+  waitfor:
+    description: "Wait until specified status return no results."
+    required: true
 runs:
   using: 'composite'
   steps:
       - shell: bash 
         run: |
+          while :
+          do
+            for waitfor in ${{ inputs.waitfo }}; do
+              TOTAL=$(curl -G \
+              --data-urlencode 'branch=${{inputs.branch}}' \
+              --data-urlencode 'event=${{inputs.event}}' \
+              --data-urlencode "status=$status" \
+              --data-urlencode 'per_page=100' \
+              --header 'Authorization: token ${{inputs.token}}' \
+              --header 'accept: application/vnd.github.v3+json' \
+              --silent \
+              https://api.github.com/repos/${{github.repository}}/actions/runs \
+              | jq --raw-output '.total_count')
+
+              if [ TOTAL != "0" ];
+              then echo "Waiting on running workflows"
+              sleep 10
+              else
+              X="exit"
+              fi
+            done
+            if [ X="exit" ]
+            then break;
+            fi
+          done
           for status in ${{ inputs.status }}; do
             curl -G \
             --data-urlencode 'branch=${{inputs.branch}}' \

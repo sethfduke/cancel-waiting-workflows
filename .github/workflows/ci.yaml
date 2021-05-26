@@ -18,10 +18,12 @@ jobs:
         uses: ./.github/actions/cancel-workflows-action
         with:
           token: ${{ github.token }}
-          event: "pull_request"
-          branch: ${{ github.head_ref }}
+          event: "push"
+          branch: main
+          #${{ github.head_ref }}
           run_number: ${{ github.run_number }}
-          status: "queued waiting in_progress"
+          status: "queued waiting"
+          waiton: "in_progress"
 
   # deploy-dev:
   #   environment: dev
