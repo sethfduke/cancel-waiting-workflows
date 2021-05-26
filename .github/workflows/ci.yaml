@@ -20,7 +20,7 @@ jobs:
           token: ${{ github.token }}
           event: "pull_request"
           branch: ${{ github.head_ref }}
-          run_numer: ${{ github.run_number }}
+          run_number: ${{ github.run_number }}
           cancel_waiting: true
       # - name: Cancel Waiting Workflows
       #   run: |
