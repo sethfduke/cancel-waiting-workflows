@@ -18,9 +18,8 @@ jobs:
         uses: ./.github/actions/cancel-workflows-action
         with:
           token: ${{ github.token }}
-          event: "push"
-          branch: main
-          #${{ github.head_ref }}
+          event: "pull_request"
+          branch: ${{ github.head_ref }}
           run_number: ${{ github.run_number }}
           status: "queued waiting"
           waitfor: "in_progress"
