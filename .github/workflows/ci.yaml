@@ -23,7 +23,7 @@ jobs:
           #${{ github.head_ref }}
           run_number: ${{ github.run_number }}
           status: "queued waiting"
-          waiton: "in_progress"
+          waitfor: "in_progress"
 
   # deploy-dev:
   #   environment: dev
