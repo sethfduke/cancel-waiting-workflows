@@ -1,10 +1,11 @@
-name: Release
+name: CI
 
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
 
 jobs:
   deploy-dev:
@@ -34,7 +35,7 @@ jobs:
 
   deploy-prod:
     environment: prod
-    name: Production
+    name: Prod
     runs-on: ubuntu-latest
     needs: [deploy-staging]
     
